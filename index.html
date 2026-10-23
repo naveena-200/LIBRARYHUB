@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LibraryHub smart library management system">
+  <title>LibraryHub | Smart Library Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">L</span><span>Library<span class="brand-accent">Hub</span><small>SMART LIBRARY SYSTEM</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-link active" data-view="dashboard"><span>▦</span> Dashboard</button>
+    <button class="nav-link" data-view="books"><span>▤</span> Book catalogue</button>
+    <button class="nav-link" data-view="members"><span>♙</span> Members</button>
+    <button class="nav-link" data-view="loans"><span>⇄</span> Issue & return</button>
+    <button class="nav-link" data-view="reservations"><span>☷</span> Reservations <span id="reservationBadge" class="nav-badge">0</span></button>
+    <div class="sidebar-bottom"><div class="help-card"><div class="help-icon">✦</div><strong>LibraryHub Smart</strong><p>Organise books, members and loans in one place.</p></div><div class="user-row"><div class="avatar">NP</div><div><strong>Library Admin</strong><small>Administrator</small></div><span class="online-dot"></span></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div class="mobile-brand">Library<span class="brand-accent">Hub</span></div><div class="crumb">Workspace <span>/</span> <strong id="pageName">Dashboard</strong></div><div class="top-actions"><span class="today" id="todayLabel"></span><button class="icon-btn" id="undoBtn" title="Undo last change" aria-label="Undo last change">↶</button><button class="admin-pill"><span class="online-dot"></span> Admin mode</button></div></header>
+    <section class="content">
+      <div class="page-heading"><div><p class="eyebrow">LIBRARY OVERVIEW</p><h1 id="heading">Good morning, Librarian <span>✦</span></h1><p class="subheading">Here's what's happening in your library today.</p></div><button class="primary-btn" id="quickAddBtn">＋ Add new book</button></div>
+      <section class="view active" id="dashboardView">
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total books</span><span class="stat-icon purple">▤</span></div><div class="stat-number" id="totalBooks">0</div><div class="stat-foot"><span class="tiny-dot purple-dot"></span> Titles in catalogue</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Available copies</span><span class="stat-icon green">✓</span></div><div class="stat-number" id="availableBooks">0</div><div class="stat-foot"><span class="tiny-dot green-dot"></span> Ready to be issued</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Books on loan</span><span class="stat-icon orange">⇄</span></div><div class="stat-number" id="loanBooks">0</div><div class="stat-foot"><span class="tiny-dot orange-dot"></span> Currently issued</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Registered members</span><span class="stat-icon blue">♙</span></div><div class="stat-number" id="totalMembers">0</div><div class="stat-foot"><span class="tiny-dot blue-dot"></span> Active readers</div></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel"><div class="panel-heading"><div><h2>Recently added books</h2><p>Your latest catalogue updates</p></div><button class="text-btn" data-goto="books">View catalogue →</button></div><div class="table-wrap"><table><thead><tr><th>BOOK TITLE</th><th>AUTHOR</th><th>STATUS</th></tr></thead><tbody id="recentBooks"></tbody></table></div></article>
+          <article class="panel activity-panel"><div class="panel-heading"><div><h2>Library snapshot</h2><p>At a glance</p></div><span class="live-pill"><span class="online-dot"></span> Live</span></div><div class="snapshot"><div class="snapshot-icon">⌕</div><div><strong>Smart search</strong><p>Find titles, authors or categories instantly.</p></div></div><div class="snapshot"><div class="snapshot-icon mint">⇄</div><div><strong>Circulation tracking</strong><p>Keep issue and return records up to date.</p></div></div><div class="snapshot"><div class="snapshot-icon peach">☷</div><div><strong>Reservation queue</strong><p>Manage readers waiting for a book.</p></div></div><div class="tip-box"><strong>💡 DSA in action</strong><p>Catalogue lookup uses a hash map; reservations use a queue and undo uses a stack.</p></div></article>
+        </div>
+      </section>
+
+      <section class="view" id="booksView">
+        <div class="section-toolbar"><div><h2>Book catalogue</h2><p>Search, sort and manage your library collection.</p></div><button class="primary-btn" id="addBookBtn">＋ Add book</button></div>
+        <div class="filter-bar"><div class="search-box"><span>⌕</span><input id="bookSearch" placeholder="Search title, author, category or ID..." aria-label="Search books"></div><select id="sortBooks" aria-label="Sort books"><option value="title">Sort: Title A–Z</option><option value="author">Sort: Author A–Z</option><option value="availability">Sort: Availability</option></select><select id="categoryFilter" aria-label="Filter category"><option value="">All categories</option></select></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>BOOK DETAILS</th><th>BOOK ID</th><th>CATEGORY</th><th>COPIES</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="booksTable"></tbody></table></div><div class="empty-state hidden" id="booksEmpty">No books match your search. Try another keyword or add a book.</div></div>
+      </section>
+
+      <section class="view" id="membersView">
+        <div class="section-toolbar"><div><h2>Library members</h2><p>Register readers and keep their records organised.</p></div><button class="primary-btn" id="addMemberBtn">＋ Register member</button></div>
+        <div class="filter-bar"><div class="search-box"><span>⌕</span><input id="memberSearch" placeholder="Search member name, email or ID..." aria-label="Search members"></div></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>MEMBER</th><th>MEMBER ID</th><th>EMAIL</th><th>BOOKS ON LOAN</th><th>ACTIONS</th></tr></thead><tbody id="membersTable"></tbody></table></div><div class="empty-state hidden" id="membersEmpty">No members found. Register your first reader.</div></div>
+      </section>
+
+      <section class="view" id="loansView">
+        <div class="section-toolbar"><div><h2>Issue & return</h2><p>Track active loans and process returns.</p></div></div>
+        <div class="form-panel"><h3>Issue a book</h3><form id="issueForm" class="inline-form"><label>Book<select id="issueBook" required></select></label><label>Member<select id="issueMember" required></select></label><button class="primary-btn" type="submit">Issue book</button></form><p class="form-note">Demo rule: each member may hold up to 3 books at a time.</p></div>
+        <div class="panel loan-panel"><div class="panel-heading"><div><h2>Current loans</h2><p>Books currently checked out</p></div><span class="count-pill" id="loanCount">0 active</span></div><div class="table-wrap"><table><thead><tr><th>BOOK</th><th>MEMBER</th><th>ISSUED ON</th><th>DUE DATE</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody id="loansTable"></tbody></table></div><div class="empty-state hidden" id="loansEmpty">No active loans. Issue a book to get started.</div></div>
+      </section>
+
+      <section class="view" id="reservationsView">
+        <div class="section-toolbar"><div><h2>Reservation queue</h2><p>Reservations are handled in first-in, first-out order (FIFO).</p></div></div>
+        <div class="form-panel"><h3>Reserve a book</h3><form id="reserveForm" class="inline-form"><label>Book<select id="reserveBook" required></select></label><label>Member<select id="reserveMember" required></select></label><button class="primary-btn" type="submit">Add reservation</button></form></div>
+        <div class="panel"><div class="panel-heading"><div><h2>Waiting list</h2><p>The first reservation is served first.</p></div><span class="count-pill" id="queueCount">0 waiting</span></div><div id="reservationList" class="reservation-list"></div><div class="empty-state hidden" id="reservationsEmpty">No reservations yet. Add a reservation above.</div></div>
+      </section>
+      <footer>© 2026 LibraryHub · Student project in Java & Data Structures <span>Built for smarter reading.</span></footer>
+    </section>
+  </main>
+
+  <dialog id="bookDialog" class="modal"><form id="bookForm"><div class="modal-heading"><div><p class="eyebrow">CATALOGUE MANAGEMENT</p><h2>Add a new book</h2></div><button type="button" class="close-btn" data-close="bookDialog">×</button></div><div class="form-grid"><label>Book title<input id="bookTitle" required maxlength="100" placeholder="e.g. Clean Code"></label><label>Author<input id="bookAuthor" required maxlength="80" placeholder="e.g. Robert C. Martin"></label><label>Category<input id="bookCategory" required maxlength="50" placeholder="e.g. Computer Science"></label><label>Total copies<input id="bookCopies" required type="number" min="1" max="500" value="1"></label></div><div class="modal-actions"><button type="button" class="secondary-btn" data-close="bookDialog">Cancel</button><button class="primary-btn" type="submit">Save book</button></div></form></dialog>
+  <dialog id="memberDialog" class="modal"><form id="memberForm"><div class="modal-heading"><div><p class="eyebrow">MEMBER MANAGEMENT</p><h2>Register a member</h2></div><button type="button" class="close-btn" data-close="memberDialog">×</button></div><div class="form-grid"><label>Full name<input id="memberName" required maxlength="80" placeholder="Reader's full name"></label><label>Email address<input id="memberEmail" required type="email" maxlength="100" placeholder="reader@example.com"></label></div><div class="modal-actions"><button type="button" class="secondary-btn" data-close="memberDialog">Cancel</button><button class="primary-btn" type="submit">Register member</button></div></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
