@@ -1,6 +1,6 @@
 # LibraryHub — Smart Library Management System
 
-A professional student project based on the supplied abstract. It demonstrates common library workflows and connects Data Structures & Algorithms with a practical application.
+A professional student project based on user friendly library management. It demonstrates common library workflows and connects Data Structures & Algorithms with a practical application.
 
 ## Project files
 
